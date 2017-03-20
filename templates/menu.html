@@ -1,10 +1,6 @@
-<html>
+{% extends "main.html" %}
+{% block content %}
 
-<head>
-    <title>Menu App</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
-</head>
 
 <body>
 <div class="menu">
@@ -110,7 +106,7 @@
     {% endif %}
 
     <div class="item bottom"><a href="{{url_for('newMenuItem', restaurant_id=restaurant.id)}}">
-        Create New Item</a></div>
+        Create a New Item</a></div>
 </div>
 
 
@@ -118,3 +114,4 @@
 </body>
 
 </html>
+{% endblock %}
