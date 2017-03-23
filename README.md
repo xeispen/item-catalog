@@ -12,6 +12,7 @@ Users are allowed to create, update and delete restaurants along with their resp
 
 
 ## Prerequisites
+Python 2.7.X
 
 # Install Vagrant and VirtualBox
 [Vagrant](https://www.vagrantup.com/) - Link to Vagrant

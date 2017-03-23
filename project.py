@@ -1,4 +1,5 @@
 import random, string, requests, json, httplib2
+from functools import wraps
 from flask import Flask, render_template, request
 from flask import redirect, url_for, flash, jsonify
 from flask import session as login_session
@@ -13,7 +14,7 @@ from oauth2client.client import FlowExchangeError
 
 app = Flask(__name__)
 
-CLIENT_ID = json.loads( \
+CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
 
 # create session and connect to DB
@@ -25,6 +26,7 @@ session = DBSession()
 
 
 def login_required(f):
+    @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'username' in login_session:
             return f(*args, **kwargs)
@@ -32,7 +34,7 @@ def login_required(f):
             flash('You are not allowed to access there')
             return redirect('/login')
         # Renaming the function name
-    decorated_function.func_name = f.func_name
+    # decorated_function.func_name = f.func_name
     return decorated_function
 
 
@@ -41,8 +43,8 @@ def showLogin():
     """ generates random anti-forgery state token with each GET
         then renders the login page while passing in this token
     """
-    state = ''.join(random.choice(string.ascii_uppercase + string.digits) \
-        for x in xrange(32))
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                    for x in xrange(32))
     login_session['state'] = state
     return render_template('login.html', STATE=state)
 
@@ -61,7 +63,7 @@ def gconnect():
         # exchanges auth code for credentials object
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
-        response = make_response( \
+        response = make_response(
             json.dumps('Failed to upgrade the Authorization code.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -82,13 +84,13 @@ def gconnect():
     gplus_id = credentials.id_token['sub']
 
     if result['user_id'] != gplus_id:
-        response = make_response( \
+        response = make_response(
             json.dumps("Token's user ID doesn't match given user ID"), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
     if result['issued_to'] != CLIENT_ID:
-        response = make_response( \
+        response = make_response(
             json.dumps("Token's user ID doesn't match app's ID"), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -96,7 +98,7 @@ def gconnect():
     stored_credentials = login_session.get('credentials')
     stored_gplus_id = login_session.get('gplus_id')
     if stored_credentials is not None and gplus_id == stored_gplus_id:
-        response = make_response( \
+        response = make_response(
             json.dumps('Current user is already connected.'), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -146,15 +148,15 @@ def fbconnect():
     access_token = request.data
 
     # Exchange client token for long lived server side toekn with GET
-    app_id = json.loads(open( \
+    app_id = json.loads(open(
         'fb_client_secrets.json', 'r').read())['web']['app_id']
-    app_secret = json.loads(open( \
+    app_secret = json.loads(open(
         'fb_client_secrets.json', 'r').read())['web']['app_secret']
 
-    url = 'https://graph.facebook.com/oauth/access_token?'
-    url += '&grant_type=fb_exchange_token&client_id=%s'
-    url += '&client_secret=%s&fb_exchange_token=%s'
-    url % (app_id, app_secret, access_token)
+    url = ('https://graph.facebook.com/oauth/access_token?'
+           '&grant_type=fb_exchange_token&client_id=%s&client_secret=%s'
+           '&fb_exchange_token=%s' % (app_id, app_secret, access_token))
+
     h = httplib2.Http()
     # Gets new longterm token
     result = h.request(url, 'GET')[1]
@@ -199,7 +201,7 @@ def gdisconnect():
     """ Disconnects and revokes permissions for Google OAuth """
     access_token = login_session['credentials']
     if access_token is None:
-        response = make_response( \
+        response = make_response(
             json.dumps('Current user not connected.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -214,7 +216,7 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     else:
-        response = make_response( \
+        response = make_response(
             json.dumps('Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
         return response
