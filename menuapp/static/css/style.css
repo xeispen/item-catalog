@@ -1,0 +1,87 @@
+body{
+    background-color: #FFFFFF;
+    color: #FFFFCC;
+    font-family: 'Georgia', serif; margin: 0;
+    height: 100%;
+}
+
+h3{
+    margin-top: 25px;
+}
+
+a:link, a:visited {
+    color: #FFFFCC;
+    text-decoration: none;
+    cursor: auto;
+}
+
+a:link:active, a:visited:active {
+    color: #FFFFCC;
+}
+
+hr {
+    border-color: #FFFFCC;
+    size: 1px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+
+.header {
+    text-align: center;
+}
+
+.column-left{ float: left; width: 75%; font-size: 150%}
+.column-right{ float: right; width: 25%; text-align: right;}
+.column-lbottom{ float: left; width: 75%; }
+.column-rbottom{ float: right; width: 25%; text-align: right;}
+
+.menu {
+    margin: auto;
+    background-color: #99CC99;
+    padding: 20px;
+    width: 600px;
+    display: table;
+    height: 100%;
+}
+
+.container {
+    height: 100%;
+}
+
+.item-header {
+    display: inline-block;
+    border-radius: 5px;
+    font-size: 100%;
+    text-align: left;
+    width: 100%;
+}
+
+.item {
+    border-radius: 5px;
+    font-size: 100%;
+    padding-top: 10px;
+    width: 100%;
+    display: table-row;
+}
+
+.bottom{
+    text-align: center;
+}
+
+.flash {text-align: center;}
+
+
+.toplink {
+    border-radius: 0px;
+    padding-top: 5px;
+}
+
+.toptext {
+    font-size: 60%;
+}
+
+
+
+
+

@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <title>Menu App</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+</head>
+
+
+<body>
+
+<div class="menu">
+    <h1>Edit Menu Item</h1>
+
+    <form action="{{url_for('editMenuItem', restaurant_id=restaurant_id, menu_id=menu_id)}}" method = 'POST'>
+        <p>Name:</p>
+            <input type='text' size='30' name='name'
+            value='{{item.name}}'>
+        <p>Description:</p>
+            <input type='text' size='30' name='description' class='input'
+            value='{{item.description}}'>
+        <p>Course:</p>
+            <input type='radio' name='course' class='input' value='Appetizer'>
+            <label>Appetizer</label>
+            <input type='radio' name='course' class='input' value='Entree'>
+            <label>Entree</label>
+            <input type='radio' name='course' class='input' value='Dessert'>
+            <label>Dessert</label>
+            <input type='radio' name='course' class='input' value='Beverage'>
+            <label>Beverage</label>
+        <p>Price:</p>
+            <input type='text' size='30' name='price' class='input'
+            value='{{item.price}}'>
+            <input type='submit' value='Edit'></br></br>
+            <a href="{{url_for('restaurantMenu', restaurant_id=restaurant_id)}}">Cancel</a>
+    </form>
+
+</div>
+    <script>
+        var val = document.getElementById('{{item.course}}').checked = true;
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class="menu">
+    <div class="row top-menu">
+        <div class="col-md-10"></div>
+        <div class="col-md-2 text-right">
+            <a href="{{url_for('disconnect')}}">Log out</a>
+        </div>
+    </div>
+    <h1 class="header">Restaurants</h1>
+
+    <div class="flash">
+        <!--MESSAGE FLASHING EXAMPLE -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+
+                {% for message in messages %}
+                  <div><strong>{{message}}</strong></div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <br>
+
+
+    {% for r in restaurants %}
+
+    <div class="item">
+        <div class="column-left"><a href="restaurant/{{r.id}}">{{r.name}}</a></div>
+        <div class="column-rbottom">
+
+        {% if r.user.name == session['username'] %}
+            <a href="{{url_for('editRestaurant', restaurant_id=r.id)}}">
+            Edit</a>
+            <a href="{{url_for('deleteRestaurant', restaurant_id=r.id)}}">
+            Delete</a>
+        {% endif %}
+
+
+        </div>
+        <br><br>
+
+    </div>
+
+
+    {% endfor %}
+
+    <div class="item bottom"><a href="{{url_for('newRestaurant')}}">
+        Create a New Restaurant</a></div>
+
+
+</div>
+
+{% endblock %}

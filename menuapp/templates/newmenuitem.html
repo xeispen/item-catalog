@@ -1,0 +1,38 @@
+<html>
+
+<head>
+    <title>Menu App</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+</head>
+
+<body>
+<div class="menu">
+
+    <h1>New Menu Item</h1>
+
+    <form action="{{url_for('newMenuItem', restaurant_id=restaurant_id)}}" method = 'POST'>
+        <p>Name:</p>
+            <input type='text' size='30' name='name' class='input' placeholder='Name'>
+        <p>Description:</p>
+            <input type='text' size='30' name='description' class='input'
+            placeholder='Description'>
+        <p>Course:</p>
+            <input type='radio' name='course' class='input' value='Appetizer'>
+            <label>Appetizer</label>
+            <input type='radio' name='course' class='input' value='Entree'>
+            <label>Entree</label>
+            <input type='radio' name='course' class='input' value='Dessert'>
+            <label>Dessert</label>
+            <input type='radio' name='course' class='input' value='Beverage'>
+            <label>Beverage</label>
+        <p>Price:</p>
+            <input type='text' size='30' name='price' class='input'
+            placeholder='$'>
+            <input type='submit' value='Create' class='button'>
+    </form>
+
+    <a href = "{{ url_for('restaurantMenu', restaurant_id = restaurant_id)}}"> Cancel </a>
+
+</div>
+</body>
+</html>
